@@ -13,6 +13,7 @@ AI が日本語で書いた文章には固有のパターンがある。
 - 「議論が深まる」「市場が報いる」のような無生物主語＋人間動詞
 - 「本質的に重要」「構造的な問題」のような曖昧な断定
 - 「両輪が揃った」「象徴する」「物語る」のような安直なまとめ
+- 「中心命題」「具体手順」「位置付けられる」のような翻訳調 AI 語
 
 これらを Claude（または任意の LLM）が検出し、削除する。
 
@@ -20,7 +21,7 @@ AI が日本語で書いた文章には固有のパターンがある。
 
 ```
 stop-slop-ja/
-├── SKILL.md              # コアルール（NEVER 19 + クイックチェック 16 + 5 軸スコアリング）
+├── SKILL.md              # コアルール（NEVER 20 + クイックチェック 17 + 5 軸スコアリング）
 ├── references/
 │   ├── phrases.md        # 削除すべきフレーズ
 │   ├── structures.md     # 避けるべき構造パターン
@@ -66,6 +67,7 @@ ln -s $(pwd) ~/.claude/skills/stop-slop-ja
 - 「〜的」の濫用、「〜という」「することができる」「することが重要だ」
 - 口語的並列「ひとつめ / ふたつめ / みっつめ / よっつめ」
 - 安直なまとめ表現（陳腐な比喩 / 偶然の必然化 / 過剰意味付け / メタコメント型）
+- **翻訳調 AI 語**（中心命題 / 具体手順 / 位置付け / 接続する / 体系化 / 構造化された / 方向性）— 漢語 2 字熟語結合の濫用を自然な日本語に置換
 
 ## スコアリング
 
@@ -87,8 +89,8 @@ ln -s $(pwd) ~/.claude/skills/stop-slop-ja
 | Adverbs | -ly words（really / just / literally 等）| とても / まさに / 実は / 結局 等 |
 | Wh-starters | What / When / Why 等 | 〜とは何か / なぜ〜なのか 等 |
 | Em-dashes | 全面禁止 | 全面禁止（同じ） |
-| 日本語固有追加 | - | 〜的の濫用 / 〜という / 口語的並列 / 安直なまとめ |
-| ルール数 | NEVER 8 + クイックチェック 12 + 5 軸 | NEVER 19 + クイックチェック 16 + 5 軸 |
+| 日本語固有追加 | - | 〜的の濫用 / 〜という / 口語的並列 / 安直なまとめ / 翻訳調 AI 語 |
+| ルール数 | NEVER 8 + クイックチェック 12 + 5 軸 | NEVER 20 + クイックチェック 17 + 5 軸 |
 
 ## 派生元
 
@@ -112,5 +114,6 @@ This skill teaches Claude (or any LLM) to detect and remove AI writing tells spe
 - False agency with inanimate subjects (議論が深まる, 市場が報いる)
 - Vague declaratives (本質的に重要, 構造的な問題)
 - Cliched closures (両輪が揃った, 象徴する, 物語る)
+- Translation-style AI vocabulary (中心命題, 具体手順, 位置付けられる)
 
-19 NEVER rules + 16 quick checks + 5-axis scoring. MIT licensed.
+20 NEVER rules + 17 quick checks + 5-axis scoring. MIT licensed.
