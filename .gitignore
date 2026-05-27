@@ -1,0 +1,7 @@
+.DS_Store
+*.bak
+*.tmp
+node_modules/
+.venv/
+__pycache__/
+*.pyc
