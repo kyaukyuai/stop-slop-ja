@@ -21,11 +21,14 @@ AI が日本語で書いた文章には固有のパターンがある。
 
 ```
 stop-slop-ja/
-├── SKILL.md              # コアルール（NEVER 20 + クイックチェック 17 + 5 軸スコアリング）
+├── SKILL.md                        # コアルール（NEVER 20 + クイックチェック 17 + 5 軸スコアリング）
 ├── references/
-│   ├── phrases.md        # 削除すべきフレーズ
-│   ├── structures.md     # 避けるべき構造パターン
-│   └── examples.md       # Before/After 変換例
+│   ├── phrases.md                  # 削除すべきフレーズ
+│   ├── structures.md               # 避けるべき構造パターン
+│   ├── examples.md                 # Before/After 変換例
+│   └── translationese-judge.md     # 翻訳調 LLM judge ルーブリック（原理ベース）
+├── scripts/
+│   └── judge-translationese.mjs    # 翻訳調を LLM judge（敵対的 2 段）で surface する
 ├── README.md
 └── LICENSE
 ```
@@ -67,7 +70,22 @@ ln -s $(pwd) ~/.claude/skills/stop-slop-ja
 - 「〜的」の濫用、「〜という」「することができる」「することが重要だ」
 - 口語的並列「ひとつめ / ふたつめ / みっつめ / よっつめ」
 - 安直なまとめ表現（陳腐な比喩 / 偶然の必然化 / 過剰意味付け / メタコメント型）
-- **翻訳調 AI 語**（中心命題 / 具体手順 / 位置付け / 接続する / 体系化 / 構造化された / 方向性）— 漢語 2 字熟語結合の濫用を自然な日本語に置換
+
+### 翻訳調（translationese）─ LLM judge で検出
+英語からの直訳調は **無限に新パターンが生まれる**ため、語リストの列挙では追いつかない。原理ベースの LLM judge で「この文は英語の直訳に読めるか」を文ごとに判定する。
+
+- S1 英語動詞の逐語置換（expose→露出する / ship→出荷する / land→着地する）
+- S2 英語形容詞の直訳（hard cap→硬い上限 / live→生きている）
+- S3 英語構文のなぞり（"X is nothing but Y"→「X に過ぎない」）
+- S4 英語慣用句の逐語訳（"at the end of the day"→「一日の終わりに」）
+
+```bash
+# 翻訳調を surface する（レビュー補助。pass/fail ゲートではない）
+node scripts/judge-translationese.mjs article.md
+node scripts/judge-translationese.mjs article.md --provider openai --json
+```
+
+**重要**: 素の LLM judge は「効く / 消える / 賭けだ」のような自然な日本語まで英語に逆翻訳して flag する（false positive 多発）。そのため judge（候補収集）→ critic（敵対的弁護で自然な日本語を棄却）の **敵対的 2 段構成**で precision を回復する。判定には主観的な揺れが残るため、**自動ゲートではなくレビュー補助**として使う。詳細: [references/translationese-judge.md](references/translationese-judge.md)
 
 ## スコアリング
 
