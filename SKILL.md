@@ -1,6 +1,6 @@
 ---
 name: stop-slop-ja
-description: Remove AI writing patterns and enforce rigorous technical-prose conventions in Japanese. Derived from hardikpandya/stop-slop + k16shikano japanese-tech-writing. NEVER 27 + 論証と構成の規範 + クイックチェック 23 + 5 軸スコアリング + 翻訳調 AI 語の検出を含む。Use when drafting, editing, or reviewing Japanese text to eliminate predictable AI tells and tighten argumentation.
+description: Remove AI writing patterns and enforce rigorous technical-prose conventions in Japanese. Derived from hardikpandya/stop-slop + k16shikano japanese-tech-writing. NEVER 31 + 論証と構成の規範 + 用語と register の自然さ + クイックチェック 26 + 5 軸スコアリング + 翻訳調 AI 語の検出を含む。Use when drafting, editing, or reviewing Japanese text to eliminate predictable AI tells and tighten argumentation.
 metadata:
   trigger: 日本語の記事執筆、技術書・解説文の草稿、ドラフト編集、AI 生成文章のリライト
   derived-from:
@@ -21,7 +21,7 @@ metadata:
 
 前者は「どの語・どの型を消すか」を、後者は「論理にツッコミどころを残さないか」を点検する。記事・X 投稿のような短い文章では前者が中心になり、技術書の章・解説文では後者が効く。
 
-## 表現の規範（NEVER 27 項目）
+## 表現の規範（NEVER 31 項目）
 
 ### 必ず削除する 7 項目
 
@@ -113,7 +113,17 @@ metadata:
 
 27. **術語の一貫（曖昧語に後退しない）**: 章・節で術語（契約、不変条件、ハーネス等）を導入したら、以後はその語で通す。「文脈」「ツール」「AI」のような曖昧語に後退しない（定式化する前の導入語として使うのはよい）。対象を指す語は具体的に選び、「AI」「ツール」でぼかさない。術語の響きを持つ語を術語でない場面に流用しない
 
-## クイックチェックリスト（23 項目、機械実行）
+### 用語と register の自然さ 4 項目（2026-06 W26 校正リトロ由来）
+
+28. **用語の説明は言い換えを優先し、括弧説明は最小限にする**: 真に難解な語は、括弧で補うより平易な言い換えに直す（「重み」→「学習済みモデル本体」）。一般語（半導体・API・SDK 等）や、直後の文で意味が分かる語には括弧説明を付けない。1 段落に括弧説明を 3 件以上詰め込まない。説明過剰は削る。**根拠**: W26 で「重み」が説明不足で不可読、「オントロジー」「半導体（AI の計算に使う高性能チップ）」が説明過剰で削除された
+
+29. **製品名・固有名は英語表記で統一する（カタカナ化しない）**: Genie（×ジーニー）、Codex、Databricks。同一記事内で表記を揃える。業界で定着したカタカナ（スキル・エージェント等の一般概念）は対象外。**根拠**: W26 で見出しの「ジーニー」が本文の「Genie」と不一致
+
+30. **比喩・言い回しの直訳を避ける**: 英語の比喩をそのまま訳さない（living graph →×「生きたグラフ」→○「絶えず更新されるグラフ」）。定着した訳語（moat →「堀」等）は可。これは翻訳調 judge（語レベル）では拾えないため人手で見る。**根拠**: W26 で「生きたグラフ」が翻訳調 judge を通過したまま残った
+
+31. **硬い書き言葉（book-ish）を register に合わせて平易にする**: 記事・note では、書き言葉に寄りすぎた語を口語的に直す。通底する→共通する／一貫して流れる、降りてくる→使えるようになる、〜へ移る→〜へ動く・移っていく、価格→値段、中身が強い→性能が高い。技術書原稿ではこの限りでない（register-aware）。これも禁止語リストにないため judge・grep を通過しやすい
+
+## クイックチェックリスト（26 項目、機械実行）
 
 リライト完了後、機械的にスキャンする。1 つでもヒットしたら該当箇所を修正してから次のステップへ進む。
 
@@ -140,8 +150,11 @@ metadata:
 21. 別物を「同じ」とまとめていないか／複数の要因を単一の原因に還元していないか（論証）
 22. 因果を主張する箇所に、その機構（なぜそうなるのか）が一文添えられているか。「必ず検出できる」「保証される」のような**認識論的な無条件断定**を書いていないか（論証）。手順・規約の命令文「必ず〜する」は対象外
 23. 見出しが内容を特定する句になっているか（作業手順だけの見出し・結論を言い切る「セリフ」になっていないか）
+24. 専門用語に過剰な括弧説明がないか。真に難解な語は括弧でなく言い換えたか（重み→学習済みモデル本体）。一般語・直後で分かる語に説明を付けていないか（用語のさじ加減）
+25. 製品名・固有名を英語表記で統一したか（Genie / Codex 等・カタカナ化していないか）
+26. 比喩の直訳（生きたグラフ 等）や硬い書き言葉（通底 / 降りてくる / 価格 / 〜に移る）が残っていないか（register。grep ではなく目視）
 
-→ 18-19 は表現レベル、20-23 は論証レベルの点検。論証レベルの詳細は [references/argumentation.md](references/argumentation.md) を参照する。
+→ 18-19 は表現レベル、20-23 は論証レベル、24-26 は用語と register の点検。論証の詳細は [references/argumentation.md](references/argumentation.md) を参照する。
 
 ## スコアリング（5 軸）
 
