@@ -33,7 +33,7 @@ AI が日本語で書いた文章には固有のパターンがある。
 
 ```
 stop-slop-ja/
-├── SKILL.md                        # NEVER 27 + 論証と構成の規範 + クイックチェック 23 + 5 軸スコアリング
+├── SKILL.md                        # NEVER 33 + 論証と構成の規範 + クイックチェック 28 + 5 軸スコアリング
 ├── references/
 │   ├── phrases.md                  # 削除すべきフレーズ + LLM っぽい空句
 │   ├── structures.md               # 避けるべき構造パターン + 整形パターン
@@ -134,7 +134,7 @@ node scripts/judge-translationese.mjs article.md --provider openai --json
 | Em-dashes | 全面禁止 | 全面禁止（同じ） |
 | 日本語固有追加 | - | 〜的の濫用 / 〜という / 口語的並列 / 安直なまとめ / 翻訳調 AI 語 |
 | 論証規範 | - | パラグラフライティング / 論証の厳密さ / 見出し / 誠実さ（k16shikano 由来） |
-| ルール数 | NEVER 8 + クイックチェック 12 + 5 軸 | NEVER 27 + 論証チェック + クイックチェック 23 + 5 軸 |
+| ルール数 | NEVER 8 + クイックチェック 12 + 5 軸 | NEVER 33 + 論証チェック + クイックチェック 28 + 5 軸 |
 
 ## 派生元
 
@@ -164,4 +164,4 @@ This skill teaches Claude (or any LLM) to detect and remove AI writing tells spe
 
 It also tightens argumentation: no mechanical conversion of hedges into assertions, no collapsing distinct things into "the same," no reduction of multi-cause events to a single cause, requiring the mechanism behind any causal claim, and headings that name the topic rather than spoil the conclusion.
 
-27 NEVER rules + argumentation checks + 23 quick checks + 5-axis scoring. MIT licensed.
+33 NEVER rules + argumentation checks + 28 quick checks + 5-axis scoring. MIT licensed.
